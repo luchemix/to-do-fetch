@@ -1,13 +1,47 @@
 @import "~bootstrap/scss/bootstrap.scss";
+@import url('https://fonts.googleapis.com/css2?family=Codystar&family=Reenie+Beanie&family=Truculenta:wght@100;500&display=swap');
 
-/* 
-
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
-
-*/
+body{
+    background-color: rgb(105, 167, 238);
+}
+#app{
+    background-color: rgb(140, 219, 203);
+    width: 50%;
+    margin: auto;
+    border-radius: 15px;
+    padding-bottom: 1%;
+}
+.myList{
+    max-width: 80%;
+    background-color: rgb(167, 189, 195);
+    margin: auto;
+    border-radius: 15px;
+}
+h1{
+    font-family: 'Codystar', cursive;
+    font-weight: bolder;
+}
+.myInput{
+    max-width: 95%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    border-radius: 15px;
+}
+.myButton{
+    background-color: rgb(91, 141, 91);
+    border-radius: 15px;
+}
+.lista{
+    text-align: start;
+}
+li{
+    list-style: none;
+    font-family: 'Truculenta', sans-serif;   
+}
+.tasks{
+    font-family: 'Reenie Beanie', cursive;
+    text-align: right;
+    font-size: larger;
+    padding-right: 5px;
+}
