@@ -14,41 +14,13 @@ export const List = () => {
 		setList(newList);
 	};
 
-	// const remove = () => {
-	// 	console.log(list);
-
-	// 	for (let a = 0; a < list.length; a++) {
-	// 		if (list[a] === liGen.elem) {
-	// 			list.splice(a, 1);
-	// 		}
-	// 	}
-
-	// 	console.log(list);
-	// };
-
-	// const deleteIt = () => {
-	// 		list.splice(i, 1);
-	// 		console.log(list);
-	// };
-
-	let liGen = list.map((elem, i) => {
-		//Genera la lista
-
-		return (
-			<li key={i}>
-				<div className="container-flex">
-					<div className="col-10 d-inline-block">{elem}</div>
-					<div className="col-1 d-inline-block">
-						<button
-							type="button"
-							className="btn btn-none text-danger">
-							<i className="fas fa-times"></i>
-						</button>
-					</div>
-				</div>
-			</li>
+	const deleteIt = i => {
+		setList(
+			list.filter((list, index) => {
+				return index != i;
+			})
 		);
-	});
+	};
 
 	const taskCount = () => {
 		if (list.length == 0) {
@@ -64,19 +36,57 @@ export const List = () => {
 				<input
 					className="myInput"
 					onChange={e => setInput(e.target.value)}
+					placeholder="Add a new task"
 				/>
 				<button className="myButton" onClick={handleClick}>
-					Add To Do
+					Add
 				</button>
 			</div>
 
 			<div className="lista">
 				<ul>
-					<div>{liGen}</div>
+					<div>
+						{list.map((elem, i) => {
+							return (
+								<li key={i}>
+									<div className="container-flex">
+										<div className="col-10 d-inline-block">
+											{elem}
+										</div>
+										<div className="col-1 d-inline-block">
+											<button
+												onClick={e => deleteIt(i)}
+												type="button"
+												className="btn btn-none text-danger">
+												<i className="fas fa-times"></i>
+											</button>
+										</div>
+									</div>
+								</li>
+							);
+						})}
+					</div>
 					<div></div>
 				</ul>
 			</div>
-			<div className="tasks">{taskCount()}</div>
+
+			<div className="container-flex">
+				<div className="col-3 d-inline-block float-left">
+					<button
+						id="deleteAll"
+						type="button"
+						className="btn-sm btn-warning text-danger"
+						data-toggle="tooltip"
+						data-placement="auto"
+						title="Delete All"
+						onClick={e => setList([])}>
+						<i className="far fa-trash-alt" id="trash"></i>
+					</button>
+				</div>
+				<div id="tasks" className="col-9 d-inline-block text-light">
+					{taskCount()}
+				</div>
+			</div>
 		</div>
 	);
 };

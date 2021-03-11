@@ -39,7 +39,14 @@ li{
     list-style: none;
     font-family: 'Truculenta', sans-serif;   
 }
-.tasks{
+#deleteAll{
+    height: 25px;
+    padding: 2px 5px 3px 5px;
+}
+#trash{
+    vertical-align: top;
+}
+#tasks{
     font-family: 'Reenie Beanie', cursive;
     text-align: right;
     font-size: larger;
