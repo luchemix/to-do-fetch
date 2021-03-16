@@ -4,14 +4,27 @@ export const List = () => {
 	const [input, setInput] = useState("");
 	const [list, setList] = useState([]);
 
-	// useEffect(() => {
-	// 	console.log(input);
-	// 	console.log(list);
-	// }, [list]);
+	useEffect(() => {
+		fetching();
+	}, []);
 
 	const handleClick = () => {
-		let newList = [...list, input];
-		setList(newList);
+		let newList = [...list, { label: input, done: false }];
+
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
+
+		var raw = JSON.stringify(newList);
+
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/luchemix", {
+			method: "PUT",
+			headers: myHeaders,
+			body: raw,
+			redirect: "follow"
+		})
+			.then(response => response.json())
+			.then(data => fetching())
+			.catch(error => console.log("error", error));
 	};
 
 	const deleteIt = i => {
@@ -30,6 +43,48 @@ export const List = () => {
 		}
 	};
 
+	const fetching = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/luchemix", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => {
+				if (!resp.ok) {
+					throw Error(resp.statusText);
+				}
+
+				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
+			})
+			.then(data => {
+				// console.log(data); //this will print on the console the exact object received from the server
+				setList(
+					data.map(item => {
+						return { label: item.label, done: item.done };
+					})
+				);
+			})
+			.catch(error => {
+				//error handling
+				// console.log("ha ocurrido un error", error);
+			});
+	};
+	fetching();
+
+	const deleteTasks = () => {
+		var raw = "";
+
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/luchemix", {
+			method: "DELETE",
+			body: raw,
+			redirect: "follow"
+		})
+			.then(response => response.json())
+			.then(data => setList([data]))
+			.catch(error => console.log("error", error));
+	};
+
 	return (
 		<div className="myList">
 			<div>
@@ -46,12 +101,12 @@ export const List = () => {
 			<div className="lista">
 				<ul>
 					<div>
-						{list.map((elem, i) => {
+						{list.map((element, i) => {
 							return (
 								<li key={i}>
 									<div className="container-flex">
 										<div className="col-10 d-inline-block">
-											{elem}
+											{element.label}
 										</div>
 										<div className="col-1 d-inline-block">
 											<button
@@ -79,7 +134,7 @@ export const List = () => {
 						data-toggle="tooltip"
 						data-placement="auto"
 						title="Delete All"
-						onClick={e => setList([])}>
+						onClick={e => deleteTasks()}>
 						<i className="far fa-trash-alt" id="trash"></i>
 					</button>
 				</div>
