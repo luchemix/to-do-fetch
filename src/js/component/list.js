@@ -5,6 +5,7 @@ export const List = () => {
 	const [list, setList] = useState([]);
 
 	useEffect(() => {
+		posting();
 		fetching();
 	}, []);
 
@@ -28,11 +29,33 @@ export const List = () => {
 	};
 
 	const deleteIt = i => {
+		let otherList = [];
 		setList(
 			list.filter((list, index) => {
 				return index != i;
 			})
 		);
+		otherList = list;
+
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
+
+		var raw = JSON.stringify(otherList);
+
+		var requestOptions = {
+			method: "PUT",
+			headers: myHeaders,
+			body: raw,
+			redirect: "follow"
+		};
+
+		fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/luchemix",
+			requestOptions
+		)
+			.then(response => response.text())
+			.then(result => console.log(result))
+			.catch(error => console.log("error", error));
 	};
 
 	const taskCount = () => {
@@ -41,6 +64,30 @@ export const List = () => {
 		} else {
 			return list.length + " remaining tasks";
 		}
+	};
+
+	const posting = () => {
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
+
+		var raw = JSON.stringify([]);
+
+		var requestOptions = {
+			method: "POST",
+			headers: myHeaders,
+			body: raw,
+			redirect: "follow"
+		};
+
+		fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/luchemix",
+			requestOptions
+		)
+			.then(response => response.text())
+			.then(result => console.log(result))
+			.catch(error => console.log("error", error));
+
+		setList(list.slice(0));
 	};
 
 	const fetching = () => {
@@ -83,6 +130,7 @@ export const List = () => {
 			.then(response => response.json())
 			.then(data => setList([data]))
 			.catch(error => console.log("error", error));
+		posting();
 	};
 
 	return (
@@ -109,12 +157,12 @@ export const List = () => {
 											{element.label}
 										</div>
 										<div className="col-1 d-inline-block">
-											<button
+											{/* <button
 												onClick={e => deleteIt(i)}
 												type="button"
 												className="btn btn-none text-danger">
 												<i className="fas fa-times"></i>
-											</button>
+											</button> */}
 										</div>
 									</div>
 								</li>
